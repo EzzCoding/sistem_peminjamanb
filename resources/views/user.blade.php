@@ -41,7 +41,13 @@
                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                   }
               });
-          
+            $('#add-button').click(function () {
+                $('#add-button').val("create-post"); 
+                $('#id').val('');
+                $('#create-edit-form').trigger("reset"); 
+                $('#modal-title').html("Tambah Pengguna Baru"); 
+                $('#modal-create-edit').modal('show'); 
+        });
           //datatable
           $('#user_table').DataTable({
               processing: true, 
@@ -84,7 +90,7 @@
                         position: 'bottomRight'
                     });
                 },
-                error: function (data) { //jika error tampilkan error pada console
+                error: function (data) {
                     console.log('Error:', data);
                     $('#save-button').html('Simpan');
                 }
@@ -92,7 +98,6 @@
         }
     })
 }
-      
           $('body').on('click', '.editUser', function () {
               var data_id = $(this).data('id');
               $.get('user/' + data_id + '/edit', function (data) {
@@ -129,6 +134,7 @@
                           $('#confirmation-modal').modal('hide'); 
                           });
                       }
+                      $( "#mytable" ).load( "your-current-page.html #mytable" );
                   });
               });
         });
