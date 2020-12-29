@@ -18,17 +18,17 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = User::all();
-        if ($request->ajax()){
+        if ($request->ajax()) {
             return Datatables::of($user)
-            ->addColumn('action', function($data){
-                $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $data->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser">Edit</a>';
-                $button .= '&nbsp;&nbsp;';
-                $button .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $data->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteUser">Delete</a>';     
-                return $button;
-            })
-            ->rawColumns(['action'])
-            ->addIndexColumn()
-            ->make(true);
+                ->addColumn('action', function ($data) {
+                    $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $data->id . '" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser">Edit</a>';
+                    $button .= '&nbsp;&nbsp;';
+                    $button .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $data->id . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteUser">Delete</a>';
+                    return $button;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('user');
     }
@@ -52,19 +52,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $id     = $request->id;
-        $post   = User::updateOrCreate(['id' => $id],
-                    [
-                    'name'          => $request->name, 
-                    'nim'           => $request->nim,
-                    'role'          => $request->role,
-                    'email'         => $request->email, 
-                    'password'      => $request->password,
-                    'phonenumber'   => $request->phonenumber,
-                    'organization'  => $request->organization,
-                    ]);
+        $post   = User::updateOrCreate(
+            ['id' => $id],
+            [
+                'name'          => $request->name,
+                'nim'           => $request->nim,
+                'role'          => $request->role,
+                'email'         => $request->email,
+                'password'      => $request->password,
+                'phonenumber'   => $request->phonenumber,
+                'organization'  => $request->organization,
+            ]
+        );
 
-                return response()->json(['success' => 'User Berhasil Ditambahkan.']);
-            }
+        return response()->json(['success' => 'User Berhasil Ditambahkan.']);
+    }
 
 
 
@@ -87,8 +89,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user= User::find($id);
-     
+        $user = User::find($id);
+
         return response()->json($user);
     }
 
@@ -112,8 +114,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $post = User::find('$id')->delete();
-     
+        $post = User::find($id)->delete();
+
         return response()->json($post);
     }
 }

@@ -62,6 +62,13 @@
                       ]
                   });
       
+            $('#add-button').click(function () {
+                $('#add-button').val("create-post"); 
+                $('#id').val(''); 
+                $('#create-edit-form').trigger("reset"); 
+                $('#modal-title').html("Tambah Pengguna Baru"); 
+                $('#modal-create-edit').modal('show'); 
+            });
           //modal show +add/edit
             if ($("#modal-create-edit").length > 0) {
                 $("#modal-create-edit").validate({
@@ -83,6 +90,7 @@
                         success ')}}',
                         position: 'bottomRight'
                     });
+                    $('#user_table').DataTable().ajax.reload();
                 },
                 error: function (data) { //jika error tampilkan error pada console
                     console.log('Error:', data);
@@ -127,7 +135,8 @@
                   success: function (data) { 
                       setTimeout(function () {
                           $('#confirmation-modal').modal('hide'); 
-                          });
+                        });
+                      $('#user_table').DataTable().ajax.reload();
                       }
                   });
               });
