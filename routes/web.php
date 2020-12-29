@@ -14,11 +14,15 @@
 Route::get('/', function () {
     return view('dashboard');
 });
+Route::get('/schedule', function () {
+    return view('schedule');
+});
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('schedule','ScheduleController');
+Route::get('listSchedule','ScheduleController@index')->name('allSchedule');
+Route::get('subject','ScheduleController@store')->name('subjectStore');
 Route::resource('user','UserController')->except(['show','update']);

@@ -29,7 +29,11 @@
     <link rel="stylesheet" href="{{asset ('fullcalendar/fullcalendar.css')}}" />
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
+    <style>
+        #dialog{
+            display: none;
+        }
+    </style>
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset ('sbadmin/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset ('sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

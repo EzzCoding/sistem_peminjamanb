@@ -143,7 +143,6 @@
                         });
                       $('#user_table').DataTable().ajax.reload();
                       }
-                      $( "#mytable" ).load( "your-current-page.html #mytable" );
                   });
               });
         });

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ScheduleController extends Controller
 {
@@ -13,7 +15,8 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return view('schedule');
+        $schedule = Schedule::all();
+        return response()->json($schedule);
     }
 
     /**
@@ -34,7 +37,19 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'subject'   => 'required',
+            'teacher'   => 'required',
+            'start'     => 'required',
+            'end'       => 'required',
+        ]);
+        if($validator->failed()) {
+            return response()->json(['error' => 'Mata Kuliah Gagal Ditambahkan.']);
+        } else {
+            Schedule::create($request->all());
+            return response()->json(['success' => 'Mata Kuliah Berhasil Ditambahkan.']);
+        }
+        return redirect()->back();
     }
 
     /**
