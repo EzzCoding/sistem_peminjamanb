@@ -51,18 +51,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->name == '') {
-            return response()->json(['error' => 'Nama dibutuhkan.']);
-        } elseif ($request->password == '') {
-            return response()->json(['error' => 'Password dibutuhkan.']);
-        } elseif ($request->email == '') {
-            return response()->json(['error' => 'E-mail dibutuhkan.']);
-        } else {
-            $user = User::where('email', [$request->email])->first();
-            if ($user) {
-                return response()->json(['error' => 'Email tidak valid']);
-            } else {
-                User::updateOrCreate(['id' => $request->id],
+        $id     = $request->id;
+        $post   = User::updateOrCreate(['id' => $id],
                     [
                     'name'          => $request->name, 
                     'nim'           => $request->nim,
@@ -76,8 +66,7 @@ class UserController extends Controller
                 return response()->json(['success' => 'User Berhasil Ditambahkan.']);
             }
 
-        }
-    }
+
 
     /**
      * Display the specified resource.
