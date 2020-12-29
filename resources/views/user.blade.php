@@ -63,13 +63,35 @@
                   });
       
           //modal show +add/edit
-          $('#add-button').click(function () {
-              $('#add-button').val("create-post"); 
-              $('#id').val(''); 
-              $('#create-edit-form').trigger("reset"); 
-              $('#modal-title').html("Tambah Pengguna Baru"); 
-              $('#modal-create-edit').modal('show'); 
-              });
+            if ($("#modal-create-edit").length > 0) {
+                $("#modal-create-edit").validate({
+                    submitHandler: function (form) {
+                    var actionType = $('#save-button').val();
+                    $('#save-button').html('Kirim..');
+            $.ajax({
+                data    : $('#create-edit-form').serialize(), 
+                url     : "{{ route('user.store') }}",
+                type    : "POST",
+                dataType: 'json', 
+                success: function (data) { 
+                    $('#create-edit-form').trigger("reset"); 
+                    $('#modal-create-edit').modal('hide'); 
+                    $('#save-button').html('Simpan');  
+                    iziToast.success({ 
+                        title: 'Data Berhasil Disimpan',
+                        message: '{{ Session('
+                        success ')}}',
+                        position: 'bottomRight'
+                    });
+                },
+                error: function (data) { //jika error tampilkan error pada console
+                    console.log('Error:', data);
+                    $('#save-button').html('Simpan');
+                }
+            });
+        }
+    })
+}
       
           $('body').on('click', '.editUser', function () {
               var data_id = $(this).data('id');
@@ -88,24 +110,7 @@
                   $('#organization').val(data.organization);
                   })
               });
-          $('#save-button').click(function (e){
-              $.ajax({
-                  data        : $('#create-edit-form').serialize(), 
-                  url         : "{{ route('user.store') }}", 
-                  type        : "POST", 
-                  dataType    : 'json', 
-                  success     : function (data) { 
-                      $('#create-edit-form').trigger("reset"); 
-                      $('#modal-create-edit').modal('hide'); 
-                      $('#save-button').html('Simpan'); 
-                      table.draw(); 
-                              },
-                      error: function (data) { 
-                          console.log('Error:', data);
-                          $('#save-button').html('Simpan');
-                              }
-                  });
-              });
+
           //delete modal show
           $('body').on('click', '.deleteUser', function () {
               dataId = $(this).data('id');
@@ -122,7 +127,6 @@
                   success: function (data) { 
                       setTimeout(function () {
                           $('#confirmation-modal').modal('hide'); 
-                          table.draw(); 
                           });
                       }
                   });
